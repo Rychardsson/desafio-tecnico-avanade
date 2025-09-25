@@ -31,7 +31,7 @@ namespace VendasService.Controllers
         {
             var resultado = await _pedidoService.GetAllPedidosAsync();
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -49,7 +49,7 @@ namespace VendasService.Controllers
                 
             var resultado = await _pedidoService.GetPedidosByClienteAsync(clienteId);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -64,7 +64,7 @@ namespace VendasService.Controllers
         {
             var resultado = await _pedidoService.GetPedidosByClienteAsync(clienteId);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -78,7 +78,7 @@ namespace VendasService.Controllers
         {
             var resultado = await _pedidoService.GetPedidoByIdAsync(id);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return NotFound(resultado);
             
             // Verificar se o usuário pode acessar este pedido
@@ -103,7 +103,7 @@ namespace VendasService.Controllers
                 
             var resultado = await _pedidoService.CreatePedidoAsync(pedidoDto, clienteId);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return CreatedAtAction(
@@ -124,7 +124,7 @@ namespace VendasService.Controllers
                 
             var resultado = await _pedidoService.UpdateStatusPedidoAsync(id, dto.Status, dto.Motivo);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -141,7 +141,7 @@ namespace VendasService.Controllers
             
             // Verificar se o usuário pode cancelar este pedido
             var pedidoResult = await _pedidoService.GetPedidoByIdAsync(id);
-            if (!pedidoResult.Success)
+            if (!pedidoResult.IsSuccess)
                 return NotFound(pedidoResult);
                 
             if (!CanAccessPedido(pedidoResult.Data?.ClienteId))
@@ -149,7 +149,7 @@ namespace VendasService.Controllers
                 
             var resultado = await _pedidoService.CancelarPedidoAsync(id, dto.Motivo);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -164,7 +164,7 @@ namespace VendasService.Controllers
         {
             var resultado = await _pedidoService.GetPedidosByStatusAsync(status);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -182,7 +182,7 @@ namespace VendasService.Controllers
                 
             var resultado = await _pedidoService.GetTotalVendasPorPeriodoAsync(dataInicio, dataFim);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -200,7 +200,7 @@ namespace VendasService.Controllers
                 
             var resultado = await _pedidoService.GetPedidosRecentesAsync(limit);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);

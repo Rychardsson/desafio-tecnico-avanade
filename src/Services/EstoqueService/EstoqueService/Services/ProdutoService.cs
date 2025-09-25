@@ -244,7 +244,6 @@ namespace EstoqueService.Services
                     var mensagemEstoqueInsuficiente = new EstoqueInsuficienteMessage
                     {
                         ProdutoId = produtoId,
-                        NomeProduto = produto.Nome,
                         QuantidadeSolicitada = quantidade,
                         QuantidadeDisponivel = produto.QuantidadeEstoque
                     };

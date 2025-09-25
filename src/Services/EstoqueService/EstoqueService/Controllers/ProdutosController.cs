@@ -29,7 +29,7 @@ namespace EstoqueService.Controllers
         {
             var resultado = await _produtoService.GetAllProdutosAsync();
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -43,7 +43,7 @@ namespace EstoqueService.Controllers
         {
             var resultado = await _produtoService.GetProdutoByIdAsync(id);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return NotFound(resultado);
                 
             return Ok(resultado);
@@ -61,7 +61,7 @@ namespace EstoqueService.Controllers
                 
             var resultado = await _produtoService.CreateProdutoAsync(produtoDto);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return CreatedAtAction(
@@ -82,7 +82,7 @@ namespace EstoqueService.Controllers
                 
             var resultado = await _produtoService.UpdateProdutoAsync(id, produtoDto);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -97,7 +97,7 @@ namespace EstoqueService.Controllers
         {
             var resultado = await _produtoService.DeleteProdutoAsync(id);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return NotFound(resultado);
                 
             return Ok(resultado);
@@ -111,7 +111,7 @@ namespace EstoqueService.Controllers
         {
             var resultado = await _produtoService.GetProdutosComEstoqueAsync();
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -128,7 +128,7 @@ namespace EstoqueService.Controllers
                 
             var resultado = await _produtoService.ValidarEstoqueAsync(id, quantidade);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -149,7 +149,7 @@ namespace EstoqueService.Controllers
                 
             var resultado = await _produtoService.AtualizarEstoqueAsync(id, dto.Quantidade, dto.Motivo ?? "Atualização manual");
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);
@@ -163,7 +163,7 @@ namespace EstoqueService.Controllers
         {
             var resultado = await _produtoService.SearchProdutosAsync(searchTerm);
             
-            if (!resultado.Success)
+            if (!resultado.IsSuccess)
                 return BadRequest(resultado);
                 
             return Ok(resultado);

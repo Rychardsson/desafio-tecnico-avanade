@@ -272,7 +272,7 @@ namespace VendasService.Services
             {
                 var resultado = await UpdateStatusPedidoAsync(id, StatusPedido.Cancelado, motivo);
                 
-                if (resultado.Success)
+                if (resultado.IsSuccess)
                 {
                     return ApiResponse<bool>.SuccessResult(true, "Pedido cancelado com sucesso");
                 }
