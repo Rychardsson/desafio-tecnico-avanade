@@ -4,3 +4,10 @@ C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\
 C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.AssemblyInfo.cs
 C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.csproj.CoreCompileInputs.cache
 C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.sourcelink.json
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\bin\Debug\net8.0\Shared.deps.json
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\bin\Debug\net8.0\Shared.dll
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\bin\Debug\net8.0\Shared.pdb
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.dll
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\refint\Shared.dll
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.pdb
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\ref\Shared.dll
