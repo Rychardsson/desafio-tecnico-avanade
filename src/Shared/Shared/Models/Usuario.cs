@@ -15,12 +15,13 @@ namespace Shared.Models
         public string Nome { get; set; } = string.Empty;
         
         [Required]
-        public string PasswordHash { get; set; } = string.Empty;
+        public string Senha { get; set; } = string.Empty;
         
-        public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
-        public bool Ativo { get; set; } = true;
+        [Required]
+        [MaxLength(50)]
+        public string Role { get; set; } = string.Empty;
         
-        public List<string> Roles { get; set; } = new List<string>();
+        public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
     }
     
     public class LoginRequest

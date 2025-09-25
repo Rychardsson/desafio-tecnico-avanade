@@ -42,7 +42,7 @@ public class AuthService : IAuthService
             throw new UnauthorizedAccessException("Credenciais inválidas");
         }
 
-        var token = _jwtService.GenerateToken(usuario.Id.ToString(), usuario.Email, usuario.Role);
+        var token = _jwtService.GenerateToken(usuario);
         _logger.LogInformation("Autenticação bem-sucedida para o usuário: {Email}", loginDto.Email);
 
         return token;
@@ -140,16 +140,17 @@ public class AuthService : IAuthService
         _logger.LogInformation("Usuário deletado com sucesso: {Id}", id);
     }
 
-    public async Task<bool> ValidateTokenAsync(string token)
+    public Task<bool> ValidateTokenAsync(string token)
     {
         try
         {
-            return _jwtService.ValidateToken(token);
+            var principal = _jwtService.ValidateToken(token);
+            return Task.FromResult(principal != null);
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Token inválido: {Token}", token);
-            return false;
+            return Task.FromResult(false);
         }
     }
 }

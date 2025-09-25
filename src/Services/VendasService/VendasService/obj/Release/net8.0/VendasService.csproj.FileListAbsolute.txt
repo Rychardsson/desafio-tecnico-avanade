@@ -1,0 +1,8 @@
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\VendasService\VendasService\obj\Release\net8.0\VendasService.csproj.AssemblyReference.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\VendasService\VendasService\obj\Release\net8.0\VendasService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\VendasService\VendasService\obj\Release\net8.0\VendasService.AssemblyInfoInputs.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\VendasService\VendasService\obj\Release\net8.0\VendasService.AssemblyInfo.cs
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\VendasService\VendasService\obj\Release\net8.0\VendasService.csproj.CoreCompileInputs.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\VendasService\VendasService\obj\Release\net8.0\VendasService.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\VendasService\VendasService\obj\Release\net8.0\VendasService.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\VendasService\VendasService\obj\Release\net8.0\VendasService.sourcelink.json

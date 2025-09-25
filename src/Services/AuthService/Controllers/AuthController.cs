@@ -122,7 +122,7 @@ public class AuthController : ControllerBase
     /// Listar todos os usuários (requer permissão de Admin)
     /// </summary>
     [HttpGet("users")]
-    [Authorize(Roles = Roles.Admin)]
+    [Authorize(Roles = Roles.ADMIN)]
     public async Task<ActionResult<ApiResponse<IEnumerable<UsuarioDto>>>> GetAllUsers()
     {
         try
@@ -168,13 +168,13 @@ public class AuthController : ControllerBase
     /// Deletar usuário (requer permissão de Admin)
     /// </summary>
     [HttpDelete("users/{id}")]
-    [Authorize(Roles = Roles.Admin)]
+    [Authorize(Roles = Roles.ADMIN)]
     public async Task<ActionResult<ApiResponse<object>>> DeleteUser(int id)
     {
         try
         {
             await _authService.DeleteUserAsync(id);
-            return Ok(ApiResponse<object>.Success(null, "Usuário deletado com sucesso"));
+            return Ok(ApiResponse<object?>.Success(null, "Usuário deletado com sucesso"));
         }
         catch (KeyNotFoundException)
         {

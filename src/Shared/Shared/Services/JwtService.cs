@@ -44,10 +44,10 @@ namespace Shared.Services
                 new Claim("userId", usuario.Id.ToString())
             };
             
-            // Adicionar roles como claims
-            foreach (var role in usuario.Roles)
+            // Adicionar role como claim
+            if (!string.IsNullOrEmpty(usuario.Role))
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(ClaimTypes.Role, usuario.Role));
             }
             
             var tokenDescriptor = new SecurityTokenDescriptor

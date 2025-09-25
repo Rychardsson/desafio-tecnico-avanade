@@ -1,0 +1,8 @@
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\EstoqueService\EstoqueService\obj\Release\net8.0\EstoqueService.csproj.AssemblyReference.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\EstoqueService\EstoqueService\obj\Release\net8.0\EstoqueService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\EstoqueService\EstoqueService\obj\Release\net8.0\EstoqueService.AssemblyInfoInputs.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\EstoqueService\EstoqueService\obj\Release\net8.0\EstoqueService.AssemblyInfo.cs
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\EstoqueService\EstoqueService\obj\Release\net8.0\EstoqueService.csproj.CoreCompileInputs.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\EstoqueService\EstoqueService\obj\Release\net8.0\EstoqueService.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\EstoqueService\EstoqueService\obj\Release\net8.0\EstoqueService.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Services\EstoqueService\EstoqueService\obj\Release\net8.0\EstoqueService.sourcelink.json
