@@ -86,4 +86,14 @@ namespace Shared.Messages
         public DateTime DataOcorrencia { get; set; } = DateTime.UtcNow;
         public string? PedidoId { get; set; }
     }
+    
+    public class PedidoStatusAtualizadoMessage
+    {
+        public int PedidoId { get; set; }
+        public string StatusAnterior { get; set; } = string.Empty;
+        public string StatusAtual { get; set; } = string.Empty;
+        public DateTime DataAtualizacao { get; set; } = DateTime.UtcNow;
+        public string UsuarioId { get; set; } = string.Empty;
+        public string? Observacoes { get; set; }
+    }
 }

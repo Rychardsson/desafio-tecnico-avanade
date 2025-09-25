@@ -43,7 +43,7 @@ namespace VendasService.Services
                         PropertyNameCaseInsensitive = true
                     });
                     
-                    return apiResponse?.Success == true && apiResponse.Data;
+                    return apiResponse?.IsSuccess == true && apiResponse.Data;
                 }
                 
                 _logger.LogWarning("Falha ao validar estoque para produto {ProdutoId}. Status: {StatusCode}", 
@@ -75,7 +75,7 @@ namespace VendasService.Services
                         PropertyNameCaseInsensitive = true
                     });
                     
-                    return apiResponse?.Success == true && apiResponse.Data;
+                    return apiResponse?.IsSuccess == true && apiResponse.Data;
                 }
                 
                 _logger.LogWarning("Falha ao atualizar estoque para produto {ProdutoId}. Status: {StatusCode}", 
@@ -138,7 +138,7 @@ namespace VendasService.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar produtos com estoque");
+                _logger.LogError(ex, "Erro ao buscar produtos com estoque no serviço de estoque", ex);
                 return new List<ProdutoResponseDto>();
             }
         }

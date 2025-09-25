@@ -203,7 +203,6 @@ namespace VendasService.Services
                     Itens = pedidoCriado.Itens.Select(i => new ItemPedidoMessage
                     {
                         ProdutoId = i.ProdutoId,
-                        NomeProduto = i.NomeProduto,
                         Quantidade = i.Quantidade,
                         PrecoUnitario = i.PrecoUnitario
                     }).ToList()
@@ -247,7 +246,7 @@ namespace VendasService.Services
                     StatusAnterior = statusAnterior.ToString(),
                     StatusAtual = novoStatus.ToString(),
                     DataAtualizacao = pedidoAtualizado.DataAtualizacao ?? DateTime.UtcNow,
-                    Motivo = motivo
+                    Observacoes = motivo
                 };
                 
                 await _rabbitMQService.PublishMessageAsync(QueueNames.PEDIDO_STATUS_ATUALIZADO, mensagem);

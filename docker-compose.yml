@@ -1,0 +1,135 @@
+version: '3.8'
+
+services:
+  # RabbitMQ Message Broker
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"   # AMQP port
+      - "15672:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - microservices-network
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "YourStrong@Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - microservices-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "YourStrong@Passw0rd" -Q "SELECT 1"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Auth Service
+  authservice:
+    build:
+      context: .
+      dockerfile: src/Services/AuthService/Dockerfile
+    container_name: authservice
+    ports:
+      - "5003:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=AuthServiceDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=true
+      - JwtSettings__SecretKey=sua-chave-secreta-super-segura-256-bits-para-docker
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # Estoque Service
+  estoqueservice:
+    build:
+      context: .
+      dockerfile: src/Services/EstoqueService/EstoqueService/Dockerfile
+    container_name: estoqueservice
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=EstoqueServiceDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=true
+      - RabbitMQ__ConnectionString=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # Vendas Service
+  vendasservice:
+    build:
+      context: .
+      dockerfile: src/Services/VendasService/VendasService/Dockerfile
+    container_name: vendasservice
+    ports:
+      - "5002:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=VendasServiceDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=true
+      - RabbitMQ__ConnectionString=amqp://guest:guest@rabbitmq:5672/
+      - Services__EstoqueService__BaseUrl=http://estoqueservice:8080
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      estoqueservice:
+        condition: service_started
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # API Gateway
+  apigateway:
+    build:
+      context: .
+      dockerfile: src/Gateway/ApiGateway/Dockerfile
+    container_name: apigateway
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - JwtSettings__SecretKey=sua-chave-secreta-super-segura-256-bits-para-docker
+    depends_on:
+      - authservice
+      - estoqueservice
+      - vendasservice
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:
+    driver: local
+  sqlserver_data:
+    driver: local
+
+networks:
+  microservices-network:
+    driver: bridge

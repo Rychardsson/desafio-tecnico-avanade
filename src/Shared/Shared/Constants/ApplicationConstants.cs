@@ -5,6 +5,7 @@ namespace Shared.Constants
         public const string PEDIDO_CRIADO = "pedido.criado";
         public const string PEDIDO_CONFIRMADO = "pedido.confirmado";
         public const string PEDIDO_CANCELADO = "pedido.cancelado";
+        public const string PEDIDO_STATUS_ATUALIZADO = "pedido.status.atualizado";
         public const string ESTOQUE_ATUALIZADO = "estoque.atualizado";
         public const string ESTOQUE_REDUZIDO = "estoque.reduzido";
         public const string ESTOQUE_INSUFICIENTE = "estoque.insuficiente";
