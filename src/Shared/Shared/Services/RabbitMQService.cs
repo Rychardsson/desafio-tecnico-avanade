@@ -9,16 +9,16 @@ namespace Shared.Services
 {
     public interface IRabbitMQService
     {
-        void PublishMessage<T>(string queueName, T message) where T : class;
-        void SubscribeToQueue<T>(string queueName, Func<T, Task> onMessageReceived) where T : class;
-        void CreateQueue(string queueName, bool durable = true);
-        void CloseConnection();
+        Task PublishMessageAsync<T>(string queueName, T message) where T : class;
+        Task SubscribeToQueueAsync<T>(string queueName, Func<T, Task> onMessageReceived) where T : class;
+        Task CreateQueueAsync(string queueName, bool durable = true);
+        Task CloseConnectionAsync();
     }
     
     public class RabbitMQService : IRabbitMQService, IDisposable
     {
         private readonly IConnection _connection;
-        private readonly IModel _channel;
+        private readonly IChannel _channel;
         private readonly ILogger<RabbitMQService> _logger;
         
         public RabbitMQService(IConfiguration configuration, ILogger<RabbitMQService> logger)
@@ -36,8 +36,8 @@ namespace Shared.Services
             
             try
             {
-                _connection = factory.CreateConnection();
-                _channel = _connection.CreateModel();
+                _connection = factory.CreateConnectionAsync().GetAwaiter().GetResult();
+                _channel = _connection.CreateChannelAsync().GetAwaiter().GetResult();
                 _logger.LogInformation("Conexão com RabbitMQ estabelecida com sucesso");
             }
             catch (Exception ex)
@@ -47,11 +47,11 @@ namespace Shared.Services
             }
         }
         
-        public void CreateQueue(string queueName, bool durable = true)
+        public async Task CreateQueueAsync(string queueName, bool durable = true)
         {
             try
             {
-                _channel.QueueDeclare(
+                await _channel.QueueDeclareAsync(
                     queue: queueName,
                     durable: durable,
                     exclusive: false,
@@ -67,23 +67,26 @@ namespace Shared.Services
             }
         }
         
-        public void PublishMessage<T>(string queueName, T message) where T : class
+        public async Task PublishMessageAsync<T>(string queueName, T message) where T : class
         {
             try
             {
-                CreateQueue(queueName);
+                await CreateQueueAsync(queueName);
                 
                 var messageJson = JsonSerializer.Serialize(message);
                 var body = Encoding.UTF8.GetBytes(messageJson);
                 
-                var properties = _channel.CreateBasicProperties();
-                properties.Persistent = true;
-                properties.MessageId = Guid.NewGuid().ToString();
-                properties.Timestamp = new AmqpTimestamp(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+                var properties = new BasicProperties
+                {
+                    Persistent = true,
+                    MessageId = Guid.NewGuid().ToString(),
+                    Timestamp = new AmqpTimestamp(DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+                };
                 
-                _channel.BasicPublish(
+                await _channel.BasicPublishAsync(
                     exchange: "",
                     routingKey: queueName,
+                    mandatory: false,
                     basicProperties: properties,
                     body: body);
                 
@@ -96,14 +99,14 @@ namespace Shared.Services
             }
         }
         
-        public void SubscribeToQueue<T>(string queueName, Func<T, Task> onMessageReceived) where T : class
+        public async Task SubscribeToQueueAsync<T>(string queueName, Func<T, Task> onMessageReceived) where T : class
         {
             try
             {
-                CreateQueue(queueName);
+                await CreateQueueAsync(queueName);
                 
-                var consumer = new EventingBasicConsumer(_channel);
-                consumer.Received += async (model, ea) =>
+                var consumer = new AsyncEventingBasicConsumer(_channel);
+                consumer.ReceivedAsync += async (model, ea) =>
                 {
                     try
                     {
@@ -114,23 +117,23 @@ namespace Shared.Services
                         if (message != null)
                         {
                             await onMessageReceived(message);
-                            _channel.BasicAck(ea.DeliveryTag, false);
+                            await _channel.BasicAckAsync(ea.DeliveryTag, false);
                             _logger.LogInformation($"Mensagem processada com sucesso da fila '{queueName}': {messageJson}");
                         }
                         else
                         {
                             _logger.LogWarning($"Mensagem nula recebida da fila '{queueName}'");
-                            _channel.BasicNack(ea.DeliveryTag, false, false);
+                            await _channel.BasicNackAsync(ea.DeliveryTag, false, false);
                         }
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, $"Erro ao processar mensagem da fila '{queueName}'");
-                        _channel.BasicNack(ea.DeliveryTag, false, true);
+                        await _channel.BasicNackAsync(ea.DeliveryTag, false, true);
                     }
                 };
                 
-                _channel.BasicConsume(
+                await _channel.BasicConsumeAsync(
                     queue: queueName,
                     autoAck: false,
                     consumer: consumer);
@@ -144,12 +147,14 @@ namespace Shared.Services
             }
         }
         
-        public void CloseConnection()
+        public async Task CloseConnectionAsync()
         {
             try
             {
-                _channel?.Close();
-                _connection?.Close();
+                if (_channel != null)
+                    await _channel.CloseAsync();
+                if (_connection != null)
+                    await _connection.CloseAsync();
                 _logger.LogInformation("Conexão com RabbitMQ fechada");
             }
             catch (Exception ex)
@@ -160,7 +165,7 @@ namespace Shared.Services
         
         public void Dispose()
         {
-            CloseConnection();
+            CloseConnectionAsync().GetAwaiter().GetResult();
             _channel?.Dispose();
             _connection?.Dispose();
         }

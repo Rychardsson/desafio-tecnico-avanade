@@ -1,0 +1,6 @@
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.csproj.AssemblyReference.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.AssemblyInfoInputs.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.AssemblyInfo.cs
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.csproj.CoreCompileInputs.cache
+C:\Users\Rycha\OneDrive\Documents\desafio-tecnico-avanade\src\Shared\Shared\obj\Debug\net8.0\Shared.sourcelink.json
